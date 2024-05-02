@@ -1,5 +1,6 @@
 package energy_glow;
 
+import energy_glow.model.Item;
 import energy_glow.model.Person;
 import energy_glow.utils.EntityManagerFactoryUtils;
 import jakarta.persistence.EntityManager;
@@ -19,15 +20,14 @@ public class App {
         try {
             manager.getTransaction().begin();
 
-            TypedQuery<Person> getPeople = manager.createQuery("from Person where name like 'C%'", Person.class);
-            List<Person> people = getPeople.getResultList();
+            TypedQuery<Person> selectPerson = manager.createQuery("select p from Person p where p.id = 2", Person.class);
+            Person person = selectPerson.getSingleResult();
 
-            for (Person person : people) {
-                System.out.println(person);
-            }
+            Item newItem = new Item("Item from Hibernate", person);
 
-            Query updateNames = manager.createQuery("delete from Person p where age = 20");
-            updateNames.executeUpdate();
+            person.getItems().add(newItem); // не создает sql запрос, просто добавляет информацию в кэш
+
+            manager.persist(newItem);
 
             manager.getTransaction().commit();
         } catch (Exception e) {

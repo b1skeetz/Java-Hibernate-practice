@@ -5,41 +5,36 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
-
 @Entity
+@Table(name = "items")
 @Getter
 @Setter
-@Table(name = "people")
-public class Person {
+public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "item_name")
     private String name;
 
-    @Column(name="age")
-    private int age;
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person owner;
 
-    @OneToMany(mappedBy = "owner")
-    List<Item> items;
-
-
-    public Person() {
+    public Item(){
 
     }
 
-    public Person(String name, int age) {
+    public Item(String name, Person owner) {
         this.name = name;
-        this.age = age;
+        this.owner = owner;
     }
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "Item{" +
                 "name='" + name + '\'' +
-                ", age=" + age +
+                ", owner=" + owner +
                 '}';
     }
 }
