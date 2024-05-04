@@ -7,6 +7,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,12 +22,13 @@ public class App {
         try {
             manager.getTransaction().begin();
 
-            TypedQuery<Person> selectPerson = manager.createQuery("select p from Person p where p.id = 2", Person.class);
-            Person person = selectPerson.getSingleResult();
+            Person person = new Person("Test", 30);
 
-            Item newItem = new Item("Item from Hibernate", person);
+            Item newItem = new Item("Item3", person);
 
-            person.getItems().add(newItem); // не создает sql запрос, просто добавляет информацию в кэш
+            person.setItems(new ArrayList<>(Collections.singletonList(newItem)));
+
+            manager.persist(person);
 
             manager.persist(newItem);
 
