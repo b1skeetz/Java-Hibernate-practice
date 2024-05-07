@@ -22,15 +22,12 @@ public class App {
         try {
             manager.getTransaction().begin();
 
-            Person person = new Person("Test", 30);
+            Person person = manager.createQuery("select p from Person p where p.id = 3", Person.class).getSingleResult();
 
-            Item newItem = new Item("Item3", person);
+            Item item = manager.createQuery("select i from Item i where i.id = 8", Item.class).getSingleResult();
 
-            person.setItems(new ArrayList<>(Collections.singletonList(newItem)));
-
-            manager.persist(person);
-
-            manager.persist(newItem);
+            item.setOwner(person);
+            person.getItems().add(item);
 
             manager.getTransaction().commit();
         } catch (Exception e) {
