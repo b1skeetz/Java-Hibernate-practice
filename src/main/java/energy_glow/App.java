@@ -1,15 +1,11 @@
 package energy_glow;
 
-import energy_glow.OneToMany.*;
-import energy_glow.OneToOne.*;
 import energy_glow.utils.EntityManagerFactoryUtils;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 import java.util.Scanner;
 
-/**
- * Hello world!
- */
 public class App {
     public static void main(String[] args) {
         EntityManager manager = EntityManagerFactoryUtils.getEntityManagerFactory().createEntityManager();
@@ -17,11 +13,8 @@ public class App {
         try {
             manager.getTransaction().begin();
 
-            Human human = manager.createQuery("select h from Human h where h.id = 4", Human.class).getSingleResult();
-            human.getPassport().setPassportNumber(77777);
-
-            Passport passport = manager.createQuery("select p from Passport p where p.person.id = 4", Passport.class).getSingleResult();
-            System.out.println(passport.getPerson().getName());
+            Query deleteHuman = manager.createQuery("delete from Human h where h.id = 4");
+            deleteHuman.executeUpdate();
 
             manager.getTransaction().commit();
         } catch (Exception e) {
