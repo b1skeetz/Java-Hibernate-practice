@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,8 +22,8 @@ public class Person {
     @Column(name="age")
     private int age;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
-    List<Item> items;
+    @OneToMany(mappedBy = "owner", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<Item> items;
 
 
     public Person() {
@@ -32,6 +33,15 @@ public class Person {
     public Person(String name, int age) {
         this.name = name;
         this.age = age;
+    }
+
+    public void addItem(Item item){
+        if(this.items == null){
+            this.items = new ArrayList<>();
+        }
+
+        this.items.add(item);
+        item.setOwner(this);
     }
 
     @Override

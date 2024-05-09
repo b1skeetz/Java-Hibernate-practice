@@ -22,12 +22,13 @@ public class App {
         try {
             manager.getTransaction().begin();
 
-            Person person = manager.createQuery("select p from Person p where p.id = 3", Person.class).getSingleResult();
+            Person person = new Person("Savannah", 30);
 
-            Item item = manager.createQuery("select i from Item i where i.id = 8", Item.class).getSingleResult();
+            person.addItem(new Item("Savannah's good1"));
+            person.addItem(new Item("Savannah's good2"));
+            person.addItem(new Item("Savannah's good3"));
 
-            item.setOwner(person);
-            person.getItems().add(item);
+            manager.persist(person);
 
             manager.getTransaction().commit();
         } catch (Exception e) {

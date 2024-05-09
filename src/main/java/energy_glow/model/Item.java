@@ -24,9 +24,8 @@ public class Item {
 
     }
 
-    public Item(String name, Person owner) {
+    public Item(String name) {
         this.name = name;
-        this.owner = owner;
     }
 
     @Override
