@@ -10,14 +10,18 @@ import java.io.Serializable;
 @Table(name = "Passports")
 @Getter
 @Setter
-public class Passport implements Serializable {
+public class Passport {
     @Id
-    @OneToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
-    private Human person;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
 
     @Column(name = "passport_number")
     private int passportNumber;
+
+    @OneToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Human person;
 
     public Passport(){
 
