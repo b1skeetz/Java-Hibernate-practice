@@ -1,4 +1,4 @@
-package energy_glow.model;
+package energy_glow.OneToMany;
 
 import jakarta.persistence.*;
 import lombok.Getter;

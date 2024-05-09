@@ -1,15 +1,10 @@
 package energy_glow;
 
-import energy_glow.model.Item;
-import energy_glow.model.Person;
+import energy_glow.OneToMany.*;
+import energy_glow.OneToOne.*;
 import energy_glow.utils.EntityManagerFactoryUtils;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -22,13 +17,12 @@ public class App {
         try {
             manager.getTransaction().begin();
 
-            Person person = new Person("Savannah", 30);
+            Human human = new Human("Nick", 66);
+            Passport passport = new Passport(human, 98765);
 
-            person.addItem(new Item("Savannah's good1"));
-            person.addItem(new Item("Savannah's good2"));
-            person.addItem(new Item("Savannah's good3"));
+            human.setPassport(passport);
 
-            manager.persist(person);
+            manager.persist(human);
 
             manager.getTransaction().commit();
         } catch (Exception e) {
