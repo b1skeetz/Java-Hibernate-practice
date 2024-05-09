@@ -17,12 +17,11 @@ public class App {
         try {
             manager.getTransaction().begin();
 
-            Human human = new Human("Nick", 66);
-            Passport passport = new Passport(human, 98765);
+            Human human = manager.createQuery("select h from Human h where h.id = 4", Human.class).getSingleResult();
+            human.getPassport().setPassportNumber(77777);
 
-            human.setPassport(passport);
-
-            manager.persist(human);
+            Passport passport = manager.createQuery("select p from Passport p where p.person.id = 4", Passport.class).getSingleResult();
+            System.out.println(passport.getPerson().getName());
 
             manager.getTransaction().commit();
         } catch (Exception e) {
