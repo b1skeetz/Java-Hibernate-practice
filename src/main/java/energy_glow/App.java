@@ -15,14 +15,13 @@ public class App {
         try (manager){
             manager.getTransaction().begin();
 
-            Movie movie = new Movie("Reservoir Dogs", 1992);
+            Actor actor = manager.createQuery("select a from Actor a where a.id = 5", Actor.class).getSingleResult();
+            System.out.println(actor.getMovies());
 
-            Actor actor = manager.createQuery("select a from Actor a where a.id = 4", Actor.class).getSingleResult();
+            Movie movieToRemove = actor.getMovies().get(0);
 
-            movie.setActors(new ArrayList<>(Collections.singletonList(actor)));
-            actor.getMovies().add(movie);
-
-            manager.persist(movie);
+            actor.getMovies().remove(movieToRemove);
+            movieToRemove.getActors().remove(actor);
 
             manager.getTransaction().commit();
         }

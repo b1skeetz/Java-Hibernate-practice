@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Movies")
@@ -31,6 +32,19 @@ public class Movie {
     public Movie(String name, int year) {
         this.name = name;
         this.year = year;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return year == movie.year && Objects.equals(id, movie.id) && Objects.equals(name, movie.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, year);
     }
 
     @Override
