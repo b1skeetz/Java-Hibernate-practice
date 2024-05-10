@@ -15,17 +15,14 @@ public class App {
         try (manager){
             manager.getTransaction().begin();
 
-            Movie movie = new Movie("Pilp fiction", 1994);
-            Actor actor1 = new Actor("Harvey Keitel", 81);
-            Actor actor2 = new Actor("Samuel L. Jackson", 72);
+            Movie movie = new Movie("Reservoir Dogs", 1992);
 
-            movie.setActors(new ArrayList<>(List.of(actor1, actor2)));
+            Actor actor = manager.createQuery("select a from Actor a where a.id = 4", Actor.class).getSingleResult();
 
-            actor1.setMovies(new ArrayList<>(Collections.singletonList(movie)));
-            actor2.setMovies(new ArrayList<>(Collections.singletonList(movie)));
+            movie.setActors(new ArrayList<>(Collections.singletonList(actor)));
+            actor.getMovies().add(movie);
 
             manager.persist(movie);
-
 
             manager.getTransaction().commit();
         }
