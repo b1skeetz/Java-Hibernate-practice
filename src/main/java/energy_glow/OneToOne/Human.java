@@ -2,7 +2,6 @@ package energy_glow.OneToOne;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name = "Humanity")
