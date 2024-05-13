@@ -1,10 +1,9 @@
 package energy_glow;
 
-import energy_glow.ManyToMany.Actor;
-import energy_glow.ManyToMany.Movie;
+import energy_glow.OneToMany.*;
 import energy_glow.utils.EntityManagerFactoryUtils;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
+import org.hibernate.Hibernate;
 
 import java.util.*;
 
@@ -15,15 +14,14 @@ public class App {
         try (manager){
             manager.getTransaction().begin();
 
-            Actor actor = manager.createQuery("select a from Actor a where a.id = 5", Actor.class).getSingleResult();
-            System.out.println(actor.getMovies());
+            Person person = manager.createQuery("select p from Person p where p.id = 3", Person.class).getSingleResult();
+            System.out.println("Получили человека");
 
-            Movie movieToRemove = actor.getMovies().get(0);
-
-            actor.getMovies().remove(movieToRemove);
-            movieToRemove.getActors().remove(actor);
+            Hibernate.initialize(person.getItems());
 
             manager.getTransaction().commit();
+
+            System.out.println(person.getItems());
         }
     }
 }
